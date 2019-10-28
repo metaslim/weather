@@ -2,14 +2,6 @@
 
 
 [[projects]]
-  digest = "1:543a74c88128eb683b45b73ea68948197504ce324e211f2d3e346322ba2bd286"
-  name = "github.com/briandowns/openweathermap"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "b4159c094dfbea2961178a1b665e98fa0df4bfbc"
-  version = "v.0.14.0"
-
-[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -122,7 +114,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/briandowns/openweathermap",
     "github.com/go-chi/chi",
     "github.com/kelseyhightower/envconfig",
     "github.com/kofalt/go-memoize",
