@@ -26,6 +26,7 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
+		cache.Storage.Flush()
 		log.Errorf("error: %v", err)
 		RespondJSON(w, response.ErrorResponse{
 			Message: err.Error(),
