@@ -11,6 +11,7 @@ import (
 
 func Weather(w http.ResponseWriter, r *http.Request) {
 	cache := di_container.DIC(r.Context()).Cache
+	log := di_container.DIC(r.Context()).Log
 
 	city := r.URL.Query()["city"]
 	if len(city) < 1 || city[0] == "" {
@@ -25,11 +26,13 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
+		log.Errorf("error: %v", err)
 		RespondJSON(w, response.ErrorResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
+
 	RespondJSON(w, reponse.(response.WeatherResponse), http.StatusOK)
 }
 
