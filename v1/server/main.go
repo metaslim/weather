@@ -50,7 +50,6 @@ func initLogger(dic *di_container.DIContainer) {
 
 func initCache(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
 	// Cache expensive calls in memory for x seconds, purging old entries every x seconds.
-
 	cacheTime := time.Duration(cfg.CacheDurationSecond) * time.Second
 	purgeTime := time.Duration(cfg.CachePurgeSecond) * time.Second
 	dic.Cache = memoize.NewMemoizer(cacheTime, purgeTime)
@@ -58,7 +57,7 @@ func initCache(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
 
 func initWeatherAgents(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
 	httpClient := &http.Client{
-		Timeout: time.Duration(cfg.HttpClientTimeoutSecond) * time.Second,
+		Timeout: time.Duration(cfg.HTTPClientTimeoutSecond) * time.Second,
 	}
 
 	dic.WeatherAgents = &[]weatheragent.WeatherAgent{
