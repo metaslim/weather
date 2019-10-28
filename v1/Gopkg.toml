@@ -16,10 +16,6 @@
   version = "1.4.2"
 
 [[constraint]]
-  name = "github.com/briandowns/openweathermap" 
-  version = "v.0.14.0"
-
-[[constraint]]
   name = "github.com/kofalt/go-memoize"
   branch = "master"
   

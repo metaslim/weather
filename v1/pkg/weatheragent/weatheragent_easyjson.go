@@ -17,7 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent(in *jlexer.Lexer, out *Response) {
+func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent(in *jlexer.Lexer, out *WeatherStackResponse) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -48,7 +48,7 @@ func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent(in *jlexer.
 		in.Consumed()
 	}
 }
-func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent(out *jwriter.Writer, in Response) {
+func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent(out *jwriter.Writer, in WeatherStackResponse) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -61,29 +61,29 @@ func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent(out *jwrite
 }
 
 // MarshalJSON supports json.Marshaler interface
-func (v Response) MarshalJSON() ([]byte, error) {
+func (v WeatherStackResponse) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
 	easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
-func (v Response) MarshalEasyJSON(w *jwriter.Writer) {
+func (v WeatherStackResponse) MarshalEasyJSON(w *jwriter.Writer) {
 	easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
-func (v *Response) UnmarshalJSON(data []byte) error {
+func (v *WeatherStackResponse) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
 	easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *Response) UnmarshalEasyJSON(l *jlexer.Lexer) {
+func (v *WeatherStackResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent(l, v)
 }
-func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent1(in *jlexer.Lexer, out *Weather) {
+func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent1(in *jlexer.Lexer, out *WeatherStackWeather) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -116,7 +116,7 @@ func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent1(in *jlexer
 		in.Consumed()
 	}
 }
-func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent1(out *jwriter.Writer, in Weather) {
+func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent1(out *jwriter.Writer, in WeatherStackWeather) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -129,6 +129,163 @@ func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent1(out *jwrit
 		const prefix string = ",\"wind_speed\":"
 		out.RawString(prefix)
 		out.Int(int(in.WindSpeed))
+	}
+	out.RawByte('}')
+}
+func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent2(in *jlexer.Lexer, out *OpenWeatherResponse) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "main":
+			easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent3(in, &out.Main)
+		case "wind":
+			easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent4(in, &out.Wind)
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent2(out *jwriter.Writer, in OpenWeatherResponse) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"main\":"
+		out.RawString(prefix[1:])
+		easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent3(out, in.Main)
+	}
+	{
+		const prefix string = ",\"wind\":"
+		out.RawString(prefix)
+		easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent4(out, in.Wind)
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v OpenWeatherResponse) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent2(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v OpenWeatherResponse) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent2(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *OpenWeatherResponse) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent2(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *OpenWeatherResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent2(l, v)
+}
+func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent4(in *jlexer.Lexer, out *OpenWeatherWind) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "speed":
+			out.WindSpeed = float64(in.Float64())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent4(out *jwriter.Writer, in OpenWeatherWind) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"speed\":"
+		out.RawString(prefix[1:])
+		out.Float64(float64(in.WindSpeed))
+	}
+	out.RawByte('}')
+}
+func easyjson5bfce153DecodeGithubComMetaslimWeatherV1PkgWeatheragent3(in *jlexer.Lexer, out *OpenWeatherMain) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "temp":
+			out.Temperature = float64(in.Float64())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson5bfce153EncodeGithubComMetaslimWeatherV1PkgWeatheragent3(out *jwriter.Writer, in OpenWeatherMain) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"temp\":"
+		out.RawString(prefix[1:])
+		out.Float64(float64(in.Temperature))
 	}
 	out.RawByte('}')
 }

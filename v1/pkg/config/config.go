@@ -9,13 +9,14 @@ const AppName string = "weather"
 
 // WeatherConfig contains all the configuration for a particular runtime environment
 type WeatherConfig struct {
-	Env                 string `default:"development"`
-	Port                int    `default:"8080"`
-	LogLevel            string `default:"debug"`
-	WeatherStackKey     string `default:"1f7c9848bb5082b82e6f3501cf7eeb5c"`
-	OpenWeatherKey      string `default:"fee8ba54caa15f294e33013a5756981a"`
-	CacheDurationSecond int    `default:"3"`
-	CachePurgeSecond    int    `default:"60"`
+	Env                     string `default:"development"`
+	Port                    int    `default:"8080"`
+	LogLevel                string `default:"debug"`
+	WeatherStackKey         string `default:"1f7c9848bb5082b82e6f3501cf7eeb5c"`
+	OpenWeatherKey          string `default:"fee8ba54caa15f294e33013a5756981a"`
+	CacheDurationSecond     int    `default:"3"`
+	CachePurgeSecond        int    `default:"60"`
+	HttpClientTimeoutSecond int    `default:"2"`
 }
 
 func NewConfig() (*WeatherConfig, error) {

@@ -9,41 +9,43 @@ import (
 )
 
 type weatherStack struct {
-	key string
+	httpClient *http.Client
+	key        string
 }
 
-type Weather struct {
+type WeatherStackWeather struct {
 	Temperature int `json:"temperature"`
 	WindSpeed   int `json:"wind_speed"`
 }
 
 //easyjson:json
-type Response struct {
-	Current Weather `json:"current"`
+type WeatherStackResponse struct {
+	Current WeatherStackWeather `json:"current"`
 }
 
-func NewWeatherStack(key string) weatherStack {
+func NewWeatherStack(key string, httpClient *http.Client) weatherStack {
 	return weatherStack{
-		key: key,
+		key:        key,
+		httpClient: httpClient,
 	}
 }
 
 func (ws weatherStack) GetData(ctx context.Context, city string) (response.WeatherResponse, error) {
-	httpClient := http.Client{}
-
 	req, _ := http.NewRequest("GET", "http://api.weatherstack.com/current", nil)
+	req = req.WithContext(ctx)
+
 	q := req.URL.Query()
 	q.Add("access_key", ws.key)
 	q.Add("query", city)
 	req.URL.RawQuery = q.Encode()
 
-	res, err := httpClient.Do(req)
+	res, err := ws.httpClient.Do(req)
 	if err != nil {
 		return response.WeatherResponse{}, err
 	}
 	defer res.Body.Close()
 
-	apiResponse := &Response{}
+	apiResponse := &WeatherStackResponse{}
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return response.WeatherResponse{}, err

@@ -11,7 +11,6 @@ import (
 
 func Weather(w http.ResponseWriter, r *http.Request) {
 	cache := di_container.DIC(r.Context()).Cache
-	log := di_container.DIC(r.Context()).Log
 
 	city := r.URL.Query()["city"]
 	if len(city) < 1 || city[0] == "" {
@@ -27,7 +26,6 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		cache.Storage.Flush()
-		log.Errorf("error: %v", err)
 		RespondJSON(w, response.ErrorResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
@@ -39,11 +37,14 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 
 func getData(ctx context.Context, city string) (response.WeatherResponse, error) {
 	agents := di_container.DIC(ctx).WeatherAgents
+	log := di_container.DIC(ctx).Log
 
 	for _, agent := range *agents {
 		response, err := agent.GetData(ctx, city)
 		if err == nil {
 			return response, nil
+		} else {
+			log.Error(err)
 		}
 	}
 

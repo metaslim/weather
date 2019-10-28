@@ -57,8 +57,12 @@ func initCache(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
 }
 
 func initWeatherAgents(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
+	httpClient := &http.Client{
+		Timeout: time.Duration(cfg.HttpClientTimeoutSecond) * time.Second,
+	}
+
 	dic.WeatherAgents = &[]weatheragent.WeatherAgent{
-		weatheragent.NewOpenWeather(cfg.OpenWeatherKey),
-		weatheragent.NewWeatherStack(cfg.WeatherStackKey),
+		weatheragent.NewOpenWeather(cfg.OpenWeatherKey, httpClient),
+		weatheragent.NewWeatherStack(cfg.WeatherStackKey, httpClient),
 	}
 }
