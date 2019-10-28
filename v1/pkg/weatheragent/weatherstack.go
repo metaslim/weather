@@ -2,6 +2,7 @@ package weatheragent
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -9,7 +10,7 @@ import (
 )
 
 type weatherStack struct {
-	httpClient *http.Client
+	httpClient Client
 	key        string
 }
 
@@ -23,7 +24,7 @@ type WeatherStackResponse struct {
 	Current WeatherStackWeather `json:"current"`
 }
 
-func NewWeatherStack(key string, httpClient *http.Client) weatherStack {
+func NewWeatherStack(key string, httpClient Client) weatherStack {
 	return weatherStack{
 		key:        key,
 		httpClient: httpClient,
@@ -46,11 +47,16 @@ func (ws weatherStack) GetData(ctx context.Context, city string) (response.Weath
 	}
 	defer res.Body.Close()
 
-	apiResponse := &WeatherStackResponse{}
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return response.WeatherResponse{}, err
 	}
+
+	if res.StatusCode != http.StatusOK {
+		return response.WeatherResponse{}, fmt.Errorf("CODE: [%d] body: [%s]", res.StatusCode, body)
+	}
+
+	apiResponse := &WeatherStackResponse{}
 
 	_ = apiResponse.UnmarshalJSON(body)
 

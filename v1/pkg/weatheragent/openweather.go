@@ -2,6 +2,7 @@ package weatheragent
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -9,7 +10,7 @@ import (
 )
 
 type openWeather struct {
-	httpClient *http.Client
+	httpClient Client
 	key        string
 }
 
@@ -27,7 +28,7 @@ type OpenWeatherResponse struct {
 	Wind OpenWeatherWind `json:"wind"`
 }
 
-func NewOpenWeather(key string, httpClient *http.Client) openWeather {
+func NewOpenWeather(key string, httpClient Client) openWeather {
 	return openWeather{
 		key:        key,
 		httpClient: httpClient,
@@ -50,11 +51,16 @@ func (ow openWeather) GetData(ctx context.Context, city string) (response.Weathe
 	}
 	defer res.Body.Close()
 
-	apiResponse := &OpenWeatherResponse{}
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return response.WeatherResponse{}, err
 	}
+
+	if res.StatusCode != http.StatusOK {
+		return response.WeatherResponse{}, fmt.Errorf("CODE: [%d] body: [%s]", res.StatusCode, body)
+	}
+
+	apiResponse := &OpenWeatherResponse{}
 
 	_ = apiResponse.UnmarshalJSON(body)
 
