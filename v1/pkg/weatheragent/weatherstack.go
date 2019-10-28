@@ -37,6 +37,7 @@ func (ws weatherStack) GetData(ctx context.Context, city string) (response.Weath
 	q := req.URL.Query()
 	q.Add("access_key", ws.key)
 	q.Add("query", city)
+	q.Add("unit", "m")
 	req.URL.RawQuery = q.Encode()
 
 	res, err := ws.httpClient.Do(req)
