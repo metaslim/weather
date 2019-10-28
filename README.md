@@ -1,9 +1,10 @@
 # Simple Weather code
 
-Access using browser at http://localhost:8080/weather?city=melbourne
+Access using browser at http://localhost:8080/v1/weather?city=melbourne
 
 ## Caveat
-The key is harcoded in config now.
+- The API keys are harcoded in config now, it can be in env variables
+- The cache is in memory
 
 ## Environment
 

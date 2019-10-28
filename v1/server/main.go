@@ -30,7 +30,7 @@ func main() {
 
 	router.Use(di_container.DependencyInjectionMiddleware(dic))
 
-	router.HandleFunc("/weather", handler.Weather)
+	router.HandleFunc("/v1/weather", handler.Weather)
 
 	dic.Log.Infof("Starting Server at :%d", dic.Config.Port)
 	dic.Log.Fatal(http.ListenAndServe(":"+strconv.Itoa(dic.Config.Port), router))
