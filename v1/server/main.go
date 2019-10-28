@@ -11,6 +11,7 @@ import (
 	"github.com/metaslim/weather/v1/pkg/di_container"
 	"github.com/metaslim/weather/v1/pkg/handler"
 	"github.com/metaslim/weather/v1/pkg/logger"
+	"github.com/metaslim/weather/v1/pkg/weatheragent"
 	"github.com/sirupsen/logrus"
 )
 
@@ -23,6 +24,7 @@ func main() {
 	initConfig(dic)
 	initLogger(dic)
 	initCache(dic, dic.Config)
+	initWeatherAgents(dic, dic.Config)
 
 	router := chi.NewRouter()
 
@@ -50,4 +52,11 @@ func initCache(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
 	cacheTime := time.Duration(cfg.CacheDurationSecond) * time.Second
 	purgeTime := time.Duration(cfg.CachePurgeSecond) * time.Second
 	dic.Cache = memoize.NewMemoizer(cacheTime, purgeTime)
+}
+
+func initWeatherAgents(dic *di_container.DIContainer, cfg *config.WeatherConfig) {
+	dic.WeatherAgents = &[]weatheragent.WeatherAgent{
+		weatheragent.NewOpenWeather(cfg.OpenWeatherKey),
+		weatheragent.NewWeatherStack(cfg.WeatherStackKey),
+	}
 }

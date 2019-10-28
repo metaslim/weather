@@ -5,11 +5,12 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/metaslim/weather/v1/pkg/di_container"
 	"github.com/metaslim/weather/v1/pkg/response"
 )
 
-type WeatherStack struct{}
+type weatherStack struct {
+	key string
+}
 
 type Weather struct {
 	Temperature int `json:"temperature"`
@@ -21,20 +22,23 @@ type Response struct {
 	Current Weather `json:"current"`
 }
 
-func (c WeatherStack) GetData(ctx context.Context, city string) (response.WeatherResponse, error) {
-	cfg := di_container.DIC(ctx).Config
-	log := di_container.DIC(ctx).Log
+func NewWeatherStack(key string) weatherStack {
+	return weatherStack{
+		key: key,
+	}
+}
+
+func (ws weatherStack) GetData(ctx context.Context, city string) (response.WeatherResponse, error) {
 	httpClient := http.Client{}
 
 	req, _ := http.NewRequest("GET", "http://api.weatherstack.com/current", nil)
 	q := req.URL.Query()
-	q.Add("access_key", cfg.WeatherStackKey)
+	q.Add("access_key", ws.key)
 	q.Add("query", city)
 	req.URL.RawQuery = q.Encode()
 
 	res, err := httpClient.Do(req)
 	if err != nil {
-		log.Error(err)
 		return response.WeatherResponse{}, err
 	}
 	defer res.Body.Close()
@@ -42,7 +46,6 @@ func (c WeatherStack) GetData(ctx context.Context, city string) (response.Weathe
 	apiResponse := &Response{}
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Error(err)
 		return response.WeatherResponse{}, err
 	}
 

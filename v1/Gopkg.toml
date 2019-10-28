@@ -22,5 +22,7 @@
 [[constraint]]
   name = "github.com/kofalt/go-memoize"
   branch = "master"
-
-
+  
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "v1.4.0"

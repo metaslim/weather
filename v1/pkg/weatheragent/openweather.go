@@ -3,20 +3,23 @@ package weatheragent
 import (
 	"context"
 
-	owm "github.com/briandowns/openweathermap"
-	"github.com/metaslim/weather/v1/pkg/di_container"
+	"github.com/briandowns/openweathermap"
 	"github.com/metaslim/weather/v1/pkg/response"
 )
 
-type OpenWeather struct{}
+type openWeather struct {
+	key string
+}
 
-func (c OpenWeather) GetData(ctx context.Context, city string) (response.WeatherResponse, error) {
-	cfg := di_container.DIC(ctx).Config
-	log := di_container.DIC(ctx).Log
+func NewOpenWeather(key string) openWeather {
+	return openWeather{
+		key: key,
+	}
+}
 
-	w, err := owm.NewCurrent("C", "EN", cfg.OpenWeatherKey)
+func (ow openWeather) GetData(ctx context.Context, city string) (response.WeatherResponse, error) {
+	w, err := openweathermap.NewCurrent("C", "EN", ow.key)
 	if err != nil {
-		log.Error(err)
 		return response.WeatherResponse{}, err
 	}
 	w.CurrentByName(city)

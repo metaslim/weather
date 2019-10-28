@@ -7,7 +7,6 @@ import (
 
 	"github.com/metaslim/weather/v1/pkg/di_container"
 	"github.com/metaslim/weather/v1/pkg/response"
-	"github.com/metaslim/weather/v1/pkg/weatheragent"
 )
 
 func Weather(w http.ResponseWriter, r *http.Request) {
@@ -29,18 +28,15 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 		RespondJSON(w, response.ErrorResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
+		return
 	}
 	RespondJSON(w, reponse.(response.WeatherResponse), http.StatusOK)
-
 }
 
 func getData(ctx context.Context, city string) (response.WeatherResponse, error) {
-	agents := []weatheragent.WeatherAgent{
-		weatheragent.OpenWeather{},
-		weatheragent.WeatherStack{},
-	}
+	agents := di_container.DIC(ctx).WeatherAgents
 
-	for _, agent := range agents {
+	for _, agent := range *agents {
 		response, err := agent.GetData(ctx, city)
 		if err == nil {
 			return response, nil
