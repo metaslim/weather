@@ -1,0 +1,26 @@
+
+[prune]
+  go-tests = true
+  unused-packages = true
+
+[[constraint]]
+  name = "github.com/go-chi/chi"
+  version = "4.0.2"
+
+[[constraint]]
+  name = "github.com/kelseyhightower/envconfig"
+  version = "1.4.0" 
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.4.2"
+
+[[constraint]]
+  name = "github.com/briandowns/openweathermap" 
+  version = "v.0.14.0"
+
+[[constraint]]
+  name = "github.com/kofalt/go-memoize"
+  branch = "master"
+
+
