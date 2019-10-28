@@ -17,6 +17,7 @@ func Weather(w http.ResponseWriter, r *http.Request) {
 		RespondJSON(w, response.ErrorResponse{
 			Message: "Missing city",
 		}, http.StatusInternalServerError)
+		return
 	}
 
 	reponse, err, _ := cache.Memoize(city[0], func() (interface{}, error) {
